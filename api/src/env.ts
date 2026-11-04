@@ -23,6 +23,8 @@ const schema = z.object({
   SOFI_API_KEY: z.string().default(''),
   SOFI_MODEL: z.string().default(''),
   SOFI_DAILY_GLOBAL_CAP: positiveInt(200),
+  SOFI_TEMPERATURE: z.coerce.number().default(0.4),
+  SOFI_MAX_TOKENS: positiveInt(300),
   NODE_ENV: z.string().default('development'),
 })
 

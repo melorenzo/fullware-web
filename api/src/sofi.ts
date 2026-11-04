@@ -41,23 +41,34 @@ async function callProvider(message: string, history: Array<{ q: string; a: stri
   messages.push({ role: 'user', content: message })
 
   try {
-    const response = await fetch(`${env.SOFI_API_URL.replace(/\/$/, '')}/chat/completions`, {
+    const baseUrl = env.SOFI_API_URL.replace(/\/$/, '')
+    const url = baseUrl.endsWith('/chat/completions') ? baseUrl : `${baseUrl}/chat/completions`
+
+    const payload: Record<string, unknown> = {
+      model: env.SOFI_MODEL,
+      messages,
+      max_tokens: env.SOFI_MAX_TOKENS ?? 300,
+      temperature: env.SOFI_TEMPERATURE ?? 0.4,
+    }
+
+    if (env.SOFI_MODEL.includes('nvidia') || env.SOFI_MODEL.includes('nemotron')) {
+      payload.top_p = 0.95
+      payload.chat_template_kwargs = { enable_thinking: false }
+    }
+
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${env.SOFI_API_KEY}`,
       },
-      body: JSON.stringify({
-        model: env.SOFI_MODEL,
-        messages,
-        max_tokens: 300,
-        temperature: 0.4,
-      }),
-      signal: AbortSignal.timeout(15000),
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(20000),
     })
 
     if (!response.ok) {
-      console.error('Proveedor de SOFI respondió', response.status)
+      const text = await response.text().catch(() => '')
+      console.error('Proveedor de SOFI respondió', response.status, text.slice(0, 200))
       return null
     }
 
@@ -65,7 +76,11 @@ async function callProvider(message: string, history: Array<{ q: string; a: stri
       choices?: Array<{ message?: { content?: string } }>
     }
 
-    return data.choices?.[0]?.message?.content?.trim() || null
+    const content = data.choices?.[0]?.message?.content?.trim()
+    if (!content) return null
+    // Algunos modelos devuelven thinking; si hay </think> tomamos lo posterior
+    const cleaned = content.includes('</think>') ? content.split('</think>').pop()?.trim() || content : content
+    return cleaned || null
   } catch (error) {
     console.error('Proveedor de SOFI falló', error)
     return null

@@ -26,11 +26,10 @@ const sections = [
     <div class="mx-auto grid max-w-5xl gap-10 px-5 py-16 sm:px-6 md:grid-cols-[220px_1fr] md:items-start md:py-20">
       <div>
         <div
-          class="flex aspect-[4/5] w-full max-w-[220px] items-center justify-center rounded-lg border border-line bg-surface"
+          class="flex aspect-[4/5] w-full max-w-[220px] items-center justify-center overflow-hidden rounded-lg border border-line bg-surface"
         >
-          <span class="font-mono text-3xl tracking-tight text-muted">ML</span>
+          <img src="/matias.jpg" alt="Matías Lorenzo" class="h-full w-full object-cover" loading="lazy" decoding="async" />
         </div>
-        <p class="mt-2 font-mono text-[10px] uppercase tracking-widest text-muted">// foto pendiente</p>
       </div>
 
       <div>
@@ -94,7 +93,16 @@ const sections = [
     </div>
 
     <p class="mt-14 border-t border-line pt-6 font-mono text-[11px] text-muted">
-      Portfolio completo próximamente en matiaslorenzo.com.ar
+      Portfolio completo en
+      {' '}
+      <a
+        href="http://matiaslorenzo.fullware.com.ar/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline decoration-line underline-offset-4 hover:text-neon"
+      >
+        matiaslorenzo.fullware.com.ar
+      </a>
     </p>
   </section>
 </Base>
