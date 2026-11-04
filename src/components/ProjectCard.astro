@@ -1,0 +1,47 @@
+---
+import type { Project } from '../data/projects'
+import StatusBadge from './StatusBadge.astro'
+
+interface Props {
+  project: Project
+}
+
+const { project } = Astro.props
+---
+
+<article class="card flex h-full flex-col p-6 transition-colors hover:border-neon/40">
+  <div class="flex items-center justify-between gap-3">
+    <span class="truncate font-mono text-[11px] text-muted">~/proyectos/{project.slug}</span>
+    <StatusBadge status={project.status} />
+  </div>
+
+  <h3 class="mt-5 text-xl font-medium text-text">
+    {
+      project.href ? (
+        <a href={project.href} class="transition-colors hover:text-neon">
+          {project.name}
+        </a>
+      ) : (
+        project.name
+      )
+    }
+  </h3>
+
+  <p class="mt-2.5 text-sm leading-relaxed text-muted">{project.summary}</p>
+
+  {project.result && <p class="mt-3 font-mono text-xs text-neon">{project.result}</p>}
+
+  <div class="mt-auto flex flex-wrap items-center gap-1.5 pt-6">
+    {project.stack.map((item) => <span class="chip">{item}</span>)}
+    {
+      project.href && (
+        <a
+          href={project.href}
+          class="ml-auto font-mono text-[11px] text-neon underline decoration-neon/40 underline-offset-4 transition-colors hover:decoration-neon"
+        >
+          Ver →
+        </a>
+      )
+    }
+  </div>
+</article>

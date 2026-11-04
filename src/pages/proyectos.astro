@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro'
+import ProjectCard from '../components/ProjectCard.astro'
+import { projects } from '../data/projects'
+---
+
+<Base
+  title="Proyectos"
+  description="Proyectos de Fullware: e-commerce, agentes de IA, bots de WhatsApp, diarios, infraestructura y automatizaciones."
+>
+  <section class="border-b border-line">
+    <div class="mx-auto max-w-6xl px-5 pb-10 pt-16 sm:px-6 sm:pt-20">
+      <p class="section-label">proyectos</p>
+      <h1 class="mt-4 max-w-2xl text-3xl font-medium sm:text-4xl">
+        Sistemas reales, en producción.
+      </h1>
+      <p class="mt-4 max-w-xl text-base leading-relaxed text-muted">
+        Una selección de lo que construí y mantengo. Sin métricas inventadas: lo que está online,
+        está online.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-14 sm:px-6">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</Base>

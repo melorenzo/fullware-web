@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro'
+import { site, whatsappLink, mailtoLink } from '../data/site'
+
+const sections = [
+  {
+    title: 'DevOps e infraestructura',
+    text: 'Docker, Linux, backups automáticos, monitoreo y avisos. Servidores propios que se mantienen solos y se pueden reconstruir desde cero.',
+  },
+  {
+    title: 'Docencia',
+    text: 'Instructor en tecnologías digitales. Talleres de IA y automatización para equipos técnicos y no técnicos, siempre sobre casos reales.',
+  },
+  {
+    title: 'Formación',
+    text: 'Licenciatura en Tecnologías Digitales en curso. Técnico Superior en Análisis de Sistemas. Profesor Universitario.',
+  },
+]
+---
+
+<Base
+  title="Matías Lorenzo"
+  description="Desarrollador en automatización e IA, DevOps y docente en tecnologías digitales."
+>
+  <section class="border-b border-line">
+    <div class="mx-auto grid max-w-5xl gap-10 px-5 py-16 sm:px-6 md:grid-cols-[220px_1fr] md:items-start md:py-20">
+      <div>
+        <div
+          class="flex aspect-[4/5] w-full max-w-[220px] items-center justify-center rounded-lg border border-line bg-surface"
+        >
+          <span class="font-mono text-3xl tracking-tight text-muted">ML</span>
+        </div>
+        <p class="mt-2 font-mono text-[10px] uppercase tracking-widest text-muted">// foto pendiente</p>
+      </div>
+
+      <div>
+        <p class="section-label">sobre mí</p>
+        <h1 class="mt-4 text-3xl font-medium leading-tight sm:text-4xl">Matías Lorenzo</h1>
+        <p class="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-neon">
+          automatización e IA · devops · docente
+        </p>
+
+        <div class="mt-6 max-w-xl space-y-3 text-base leading-relaxed text-muted">
+          <p>
+            Trabajo con empresas y equipos que necesitan que la tecnología les resuelva el día, no que
+            les agregue una planilla más.
+          </p>
+          <p>
+            Construyo agentes de IA, bots de WhatsApp, tableros y automatizaciones, y me hago cargo de
+            la infraestructura donde viven: servidores propios, Docker, backups y monitoreo.
+          </p>
+          <p>
+            Doy clases porque explicar bien un sistema es la mejor forma de saber si lo entendés. Y
+            porque la tecnología sirve más cuando el equipo la puede usar sin depender de nadie.
+          </p>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-2">
+          <a
+            href={site.social.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-quiet"
+          >
+            LinkedIn
+          </a>
+          <a href={site.social.github} target="_blank" rel="noopener noreferrer" class="btn btn-quiet">
+            GitHub
+          </a>
+          <a href={whatsappLink('Hola Matías, te escribo desde fullware.com.ar.')} class="btn btn-primary">
+            Escribime
+          </a>
+        </div>
+
+        <p class="mt-4 font-mono text-[11px] text-muted">
+          <a href={mailtoLink()} class="underline decoration-line underline-offset-4 hover:text-neon">
+            {site.email || 'mail pendiente'}
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-5 py-14 sm:px-6">
+    <div class="grid gap-8 md:grid-cols-3">
+      {
+        sections.map((section) => (
+          <div class="border-t border-line pt-5">
+            <h2 class="text-lg font-medium">{section.title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{section.text}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-14 border-t border-line pt-6 font-mono text-[11px] text-muted">
+      Portfolio completo próximamente en matiaslorenzo.com.ar
+    </p>
+  </section>
+</Base>

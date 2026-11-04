@@ -1,0 +1,28 @@
+---
+const steps = [
+  { number: '01', title: 'Diagnóstico', text: 'Entiendo el proceso, los datos y qué duele hoy.' },
+  { number: '02', title: 'Prototipo', text: 'Algo funcionando pronto, para validar antes de invertir de más.' },
+  { number: '03', title: 'Implementación y soporte', text: 'Queda andando, monitoreado y con quien responda.' },
+]
+---
+
+<section class="border-b border-line">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-6">
+    <p class="section-label">cómo trabajo</p>
+    <h2 class="mt-4 max-w-xl text-2xl font-medium sm:text-3xl">
+      Tres pasos, sin vueltas.
+    </h2>
+
+    <ol class="mt-10 grid gap-8 md:grid-cols-3 md:gap-6">
+      {
+        steps.map((step) => (
+          <li class="relative border-t border-line pt-5">
+            <span class="font-mono text-xs tracking-widest text-neon">{step.number}</span>
+            <h3 class="mt-3 text-lg font-medium">{step.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

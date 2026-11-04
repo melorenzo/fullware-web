@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro'
+import Hero from '../components/Hero.astro'
+import ServiceCard from '../components/ServiceCard.astro'
+import ProjectCard from '../components/ProjectCard.astro'
+import Process from '../components/Process.astro'
+import WhoAmI from '../components/WhoAmI.astro'
+import CtaWhatsApp from '../components/CtaWhatsApp.astro'
+import ContactConsole from '../components/islands/ContactConsole.tsx'
+import { services } from '../data/services'
+import { featuredProjects } from '../data/projects'
+import { site, mailtoLink } from '../data/site'
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'ProfessionalService'],
+  name: 'Fullware',
+  url: site.url,
+  description: site.description,
+  email: site.email || undefined,
+  areaServed: { '@type': 'Country', name: 'Argentina' },
+  founder: { '@type': 'Person', name: 'Matías Lorenzo' },
+  knowsAbout: services.map((service) => service.title),
+  sameAs: [site.social.linkedin, site.social.github],
+}
+---
+
+<Base title="Fullware — Automatización, IA y servidores propios">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <Hero />
+
+  <section id="servicios" class="border-b border-line">
+    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-6">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="section-label">servicios</p>
+          <h2 class="mt-4 max-w-xl text-2xl font-medium sm:text-3xl">
+            Lo que automatizamos, de punta a punta.
+          </h2>
+        </div>
+        <a href="/#contacto" class="btn btn-secondary">Contame tu caso</a>
+      </div>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((service, index) => <ServiceCard service={service} index={index} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-line">
+    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-6">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="section-label">proyectos destacados</p>
+          <h2 class="mt-4 text-2xl font-medium sm:text-3xl">Cosas que ya están andando.</h2>
+        </div>
+        <a href="/proyectos" class="btn btn-quiet">Ver todos</a>
+      </div>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        {featuredProjects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </div>
+  </section>
+
+  <Process />
+
+  <WhoAmI />
+
+  <section id="contacto" class="relative overflow-hidden">
+    <div class="grid-bg absolute inset-0 opacity-40" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl px-5 py-20 sm:px-6">
+      <div class="max-w-2xl">
+        <p class="section-label">contacto</p>
+        <h2 class="mt-4 text-2xl font-medium sm:text-3xl">Contame qué querés automatizar.</h2>
+        <p class="mt-3 text-base leading-relaxed text-muted">
+          Podés usar la consola de acá abajo —sí, funciona de verdad— o escribirme directo. Te
+          respondo yo, no un formulario perdido.
+        </p>
+      </div>
+
+      <div class="mt-8">
+        <ContactConsole client:visible />
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <CtaWhatsApp message="Hola Fullware, quiero consultar por un proyecto." />
+        <a href={mailtoLink('Consulta desde fullware.com.ar')} class="btn btn-quiet">
+          Escribir por mail
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

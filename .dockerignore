@@ -1,0 +1,17 @@
+node_modules
+dist
+.astro
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+data
+api/node_modules
+api/dist
+api/data
+*.tar
+*.tar.gz
+*.log
+.vscode
+.freebuff

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro'
+---
+
+<Base title="404 — Página no encontrada" noindex>
+  <section class="relative overflow-hidden">
+    <div class="grid-bg absolute inset-0 opacity-50" aria-hidden="true"></div>
+    <div class="relative mx-auto flex min-h-[60vh] max-w-3xl flex-col justify-center px-5 py-20 sm:px-6">
+      <p class="font-mono text-xs tracking-[0.16em] text-neon">$ cat ruta</p>
+      <h1 class="mt-4 font-mono text-5xl font-semibold sm:text-7xl">404</h1>
+      <p class="mt-4 max-w-md text-base leading-relaxed text-muted">
+        La ruta que buscás no existe, se movió o nunca estuvo. Nada grave: volvamos a algo que sí
+        funciona.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/" class="btn btn-primary">Ir al inicio</a>
+        <a href="/proyectos" class="btn btn-secondary">Ver proyectos</a>
+      </div>
+    </div>
+  </section>
+</Base>

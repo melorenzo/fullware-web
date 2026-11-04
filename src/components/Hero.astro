@@ -1,0 +1,44 @@
+---
+import CtaWhatsApp from './CtaWhatsApp.astro'
+---
+
+<section class="relative overflow-hidden border-b border-line">
+  <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+  <div
+    class="glow-orange pointer-events-none absolute -right-20 top-0 h-[26rem] w-[26rem] rounded-full bg-orange/20 blur-[120px]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl px-5 py-24 sm:px-6 md:py-32">
+    <p class="font-mono text-xs tracking-[0.16em] text-muted">
+      <span class="text-neon">&gt;</span> fullware --status online
+      <span class="cursor-blink ml-0.5 text-neon" aria-hidden="true">▌</span>
+    </p>
+
+    <h1 class="mt-7 max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+      Automatizamos lo repetitivo.
+      <span class="block text-muted">Vos te ocupás de crecer.</span>
+    </h1>
+
+    <p class="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+      Agentes de IA, bots de WhatsApp, tableros y servidores propios. Soluciones a medida, sin humo.
+    </p>
+
+    <div class="mt-9 flex flex-wrap items-center gap-3">
+      <CtaWhatsApp label="Hablar por WhatsApp" />
+      <a href="#contacto" class="btn btn-secondary">Probar la consola</a>
+    </div>
+
+    <ul
+      class="mt-14 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted"
+    >
+      <li>agentes de IA</li>
+      <li aria-hidden="true" class="text-line">/</li>
+      <li>whatsapp</li>
+      <li aria-hidden="true" class="text-line">/</li>
+      <li>tableros</li>
+      <li aria-hidden="true" class="text-line">/</li>
+      <li>devops</li>
+    </ul>
+  </div>
+</section>

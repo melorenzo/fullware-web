@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /juego
+
+Sitemap: https://fullware.com.ar/sitemap-index.xml

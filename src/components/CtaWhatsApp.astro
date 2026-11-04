@@ -1,0 +1,29 @@
+---
+import { whatsappLink } from '../data/site'
+
+interface Props {
+  label?: string
+  message?: string
+  variant?: 'primary' | 'secondary' | 'quiet'
+  class?: string
+}
+
+const {
+  label = 'Hablar por WhatsApp',
+  message = 'Hola Fullware, quiero consultar por...',
+  variant = 'primary',
+  class: className = '',
+} = Astro.props
+
+const href = whatsappLink(message)
+const external = href.startsWith('http')
+---
+
+<a
+  href={href}
+  class:list={['btn', `btn-${variant}`, className]}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+>
+  {label}
+</a>
