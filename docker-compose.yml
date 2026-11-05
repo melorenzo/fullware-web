@@ -8,9 +8,9 @@ services:
         PUBLIC_WHATSAPP_NUMBER: ${PUBLIC_WHATSAPP_NUMBER:-}
         PUBLIC_CONTACT_EMAIL: ${PUBLIC_CONTACT_EMAIL:-}
     restart: unless-stopped
+    # El TLS lo termina el proxy del host; acá publicamos HTTP plano.
     ports:
-      - '80:80'
-      - '443:443'
+      - '8000:80'
     volumes:
       - caddy_data:/data
       - caddy_config:/config

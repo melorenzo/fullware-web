@@ -1,4 +1,8 @@
-fullware.com.ar {
+# El TLS lo termina el proxy que está adelante (host).
+# Este contenedor sirve HTTP plano en el 80, publicado en el host como 8000.
+# Por eso la dirección es `:80` sin dominio: así Caddy no intenta pedir certificados.
+
+:80 {
 	encode zstd gzip
 
 	root * /srv
@@ -14,6 +18,10 @@ fullware.com.ar {
 	# Assets con hash: cache larga
 	@assets path /_astro/*
 	header @assets Cache-Control "public, max-age=31536000, immutable"
+
+	# www -> apex
+	@www host www.fullware.com.ar
+	redir @www https://fullware.com.ar{uri} permanent
 
 	handle /api/* {
 		reverse_proxy api:3000
@@ -32,8 +40,4 @@ fullware.com.ar {
 		}
 		respond "{http.error.status_code} {http.error.status_text}" {http.error.status_code}
 	}
-}
-
-www.fullware.com.ar {
-	redir https://fullware.com.ar{uri} permanent
 }

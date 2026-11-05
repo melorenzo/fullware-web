@@ -135,15 +135,19 @@ bash scripts/package.sh     # fullware-web-deploy.tar.gz
 Allá:
 
 ```bash
-tar xzf fullware-web-deploy.tar.gz
-cd fullware-web
-cp .env.example .env        # completar tokens y secretos
-./deploy.sh
+mkdir -p /opt/fullware && cd /opt/fullware
+tar xzf /tmp/fullware-web-deploy.tar.gz   # extrae en el directorio actual
+cp .env.example .env                      # completar tokens y secretos
+bash deploy.sh
 ```
 
 `deploy.sh` construye las imágenes, levanta el compose, espera `/api/health`, verifica HTTPS y que el 404 propio responda.
 
 El paquete excluye `.env`, `node_modules`, `dist`, `.git` y los datos locales.
+
+### Puertos y TLS
+
+El compose publica el web en `8000:80` y **no** ocupa 80/443: el TLS lo termina el proxy del host, que hace de front para `fullware.com.ar` y `www`. Por eso el `Caddyfile` del contenedor escucha en `:80` sin dominio (no pide certificados) y el web queda accesible solo en `127.0.0.1:8000` o en la red interna del proxy.
 
 ### Worker de mails (Cloudflare)
 
