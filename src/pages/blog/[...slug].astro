@@ -1,50 +1,21 @@
 ---
-import { getCollection, render } from 'astro:content'
 import Base from '../../layouts/Base.astro'
-
-export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft)
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }))
+export function getStaticPaths() {
+  return []
 }
-
-const { post } = Astro.props
-const { Content } = await render(post)
-
-const formatter = new Intl.DateTimeFormat('es-AR', {
-  day: '2-digit',
-  month: 'long',
-  year: 'numeric',
-})
 ---
 
-<Base title={post.data.title} description={post.data.description}>
-  <article class="mx-auto max-w-4xl px-5 py-16 sm:px-6">
-    <a href="/blog" class="font-mono text-[11px] uppercase tracking-widest text-muted transition-colors hover:text-neon">
-      ← volver al blog
-    </a>
-
-    <header class="mt-8 border-b border-line pb-8">
-      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-widest text-muted">
-        <time datetime={post.data.date.toISOString()}>{formatter.format(post.data.date)}</time>
-        {post.data.tags.length > 0 && (
-          <>
-            <span aria-hidden="true">·</span>
-            <span>{post.data.tags.map((tag) => `#${tag}`).join(' ')}</span>
-          </>
-        )}
-      </div>
-      <h1 class="mt-4 text-3xl font-medium leading-tight sm:text-4xl">{post.data.title}</h1>
-      <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">{post.data.description}</p>
-    </header>
-
-    <div class="prose-fullware mx-auto mt-10 max-w-[65ch]">
-      <Content />
-    </div>
-
-    <footer class="mt-14 border-t border-line pt-8">
-      <p class="text-sm text-muted">
-        ¿Esto te sirve para algo? <a href="/#contacto" class="text-neon underline underline-offset-4">Escribime</a>.
-      </p>
-    </footer>
-  </article>
+<Base title="Blog | Fullware" description="Redirigiendo al blog oficial de Fullware.">
+  <meta http-equiv="refresh" content="0; url=https://blog.fullware.com.ar/" />
+  <section class="mx-auto max-w-3xl px-5 py-24 text-center sm:px-6">
+    <p class="section-label">blog</p>
+    <h1 class="mt-4 text-2xl font-medium sm:text-3xl">Te redirigimos al blog oficial</h1>
+    <p class="mt-3 text-sm text-muted">
+      Si no se redirige automáticamente,
+      <a href="https://blog.fullware.com.ar/" class="text-neon underline decoration-neon/40 underline-offset-4 hover:decoration-neon">
+        hacé clic acá
+      </a>
+      .
+    </p>
+  </section>
 </Base>

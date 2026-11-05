@@ -64,6 +64,36 @@ async function sendTelegram(text: string): Promise<boolean> {
   }
 }
 
+async function sendMailWorker(text: string, data: z.infer<typeof schema>): Promise<boolean> {
+  const url = (env as any).MAIL_WORKER_URL || (env as any).EMAIL_WORKER_URL || (env as any).CF_MAIL_WORKER_URL
+  if (!url) return false
+
+  try {
+    const response = await fetch(url.replace(/\/$/, ''), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...( (env as any).MAIL_WORKER_TOKEN ? { Authorization: `Bearer ${(env as any).MAIL_WORKER_TOKEN}` } : {} ),
+      },
+      body: JSON.stringify({
+        name: data.name,
+        need: data.need,
+        contact: data.contact,
+        message: text,
+        subject: 'Nueva consulta en fullware.com.ar',
+        to: (env as any).MAIL_WORKER_TO || (env as any).PUBLIC_CONTACT_EMAIL || undefined,
+      }),
+      signal: AbortSignal.timeout(8000),
+    })
+
+    if (!response.ok) console.error('Mail Worker respondió', response.status)
+    return response.ok
+  } catch (error) {
+    console.error('Mail Worker falló', error)
+    return false
+  }
+}
+
 export const contact = new Hono()
 
 contact.post('/', async (c) => {
@@ -99,13 +129,13 @@ contact.post('/', async (c) => {
     `Fecha: ${dateFormatter.format(new Date())}`,
   ].join('\n')
 
-  const results = await Promise.allSettled([sendWaha(text), sendTelegram(text)])
+  const results = await Promise.allSettled([sendWaha(text), sendTelegram(text), sendMailWorker(text, data)])
   const delivered = results.some((result) => result.status === 'fulfilled' && result.value)
 
   if (!delivered) {
     // Nunca perder un lead: si no salió por ningún canal, queda en SQLite.
     saveContact(data)
-    console.error('Consulta guardada en SQLite: no se pudo avisar por WAHA ni Telegram')
+    console.error('Consulta guardada en SQLite: no se pudo avisar por ningún canal')
   }
 
   return c.json({ ok: true })

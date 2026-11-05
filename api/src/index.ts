@@ -2,6 +2,7 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { bodyLimit } from 'hono/body-limit'
 import { logger } from 'hono/logger'
+import { blog } from './blog.js'
 import { contact } from './contact.js'
 import { env } from './env.js'
 import { sofi } from './sofi.js'
@@ -19,6 +20,7 @@ app.use(
 )
 
 app.get('/api/health', (c) => c.json({ ok: true }))
+app.route('/api/blog', blog)
 app.route('/api/contact', contact)
 app.route('/api/sofi', sofi)
 

@@ -1,24 +1,17 @@
-import rss from '@astrojs/rss'
-import type { APIContext } from 'astro'
-import { getCollection } from 'astro:content'
-import { site } from '../data/site'
+export async function GET() {
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Fullware — Notas de campo</title>
+    <description>Notas sobre automatización, IA, servidores y aprendizajes.</description>
+    <link>https://blog.fullware.com.ar/</link>
+    <language>es-ar</language>
+  </channel>
+</rss>`
 
-export async function GET(context: APIContext) {
-  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  )
-
-  return rss({
-    title: 'Fullware — Notas de campo',
-    description: 'Notas sobre automatización, IA, servidores y aprendizajes.',
-    site: context.site ?? site.url,
-    items: posts.map((post) => ({
-      title: post.data.title,
-      description: post.data.description,
-      pubDate: post.data.date,
-      link: `/blog/${post.id}/`,
-      categories: post.data.tags,
-    })),
-    customData: '<language>es-ar</language>',
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+    },
   })
 }
