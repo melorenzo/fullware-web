@@ -138,5 +138,5 @@ contact.post('/', async (c) => {
     console.error('Consulta guardada en SQLite: no se pudo avisar por ningún canal')
   }
 
-  return c.json({ ok: true })
+  return c.json({ ok: true, delivered })
 })

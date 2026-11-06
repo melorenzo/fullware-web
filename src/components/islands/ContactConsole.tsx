@@ -154,7 +154,13 @@ export default function ContactConsole() {
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
 
-      push('ok', '✔ Mensaje enviado. Te respondo pronto.')
+      const payload = (await response.json().catch(() => null)) as { delivered?: boolean } | null
+      if (payload?.delivered) {
+        push('ok', '✔ Mensaje enviado. Te respondo pronto.')
+      } else {
+        push('ok', '✔ Consulta recibida. La tengo guardada y te respondo por el contacto que dejaste.')
+        push('system', 'Si es urgente, escribime directo por WhatsApp.')
+      }
       push('system', '¿Querés hacer otra cosa? Probá /help o contratar.')
       setDraft({ name: '', need: '', contact: '' })
       setStep('sent')
