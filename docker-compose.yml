@@ -14,6 +14,11 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
+    # El túnel de Cloudflare vive en su propia red; sin esto, el proxy del host
+    # no puede llegar al contenedor después de recrearlo.
+    networks:
+      - default
+      - tunnel
     depends_on:
       api:
         condition: service_healthy
@@ -41,6 +46,11 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+networks:
+  tunnel:
+    external: true
+    name: docker_default
 
 volumes:
   caddy_data:
