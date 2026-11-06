@@ -64,6 +64,40 @@ async function sendTelegram(text: string): Promise<boolean> {
   }
 }
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
+async function sendResend(text: string, data: z.infer<typeof schema>): Promise<boolean> {
+  const to = env.MAIL_TO || env.MAIL_WORKER_TO
+  if (!env.RESEND_API_KEY || !to) return false
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: env.RESEND_FROM,
+        to: [to],
+        subject: 'Nueva consulta en fullware.com.ar',
+        text,
+        ...(emailPattern.test(data.contact) ? { reply_to: data.contact } : {}),
+      }),
+      signal: AbortSignal.timeout(8000),
+    })
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      console.error('Resend respondió', response.status, detail.slice(0, 300))
+    }
+    return response.ok
+  } catch (error) {
+    console.error('Resend falló', error)
+    return false
+  }
+}
+
 async function sendMailWorker(text: string, data: z.infer<typeof schema>): Promise<boolean> {
   const url = (env as any).MAIL_WORKER_URL || (env as any).EMAIL_WORKER_URL || (env as any).CF_MAIL_WORKER_URL
   if (!url) return false
@@ -129,7 +163,12 @@ contact.post('/', async (c) => {
     `Fecha: ${dateFormatter.format(new Date())}`,
   ].join('\n')
 
-  const results = await Promise.allSettled([sendWaha(text), sendTelegram(text), sendMailWorker(text, data)])
+  const results = await Promise.allSettled([
+    sendWaha(text),
+    sendTelegram(text),
+    sendResend(text, data),
+    sendMailWorker(text, data),
+  ])
   const delivered = results.some((result) => result.status === 'fulfilled' && result.value)
 
   if (!delivered) {

@@ -92,12 +92,13 @@ Todo va en `.env` (nunca commiteado). Partí de `.env.example`.
 | `PUBLIC_CONTACT_EMAIL` | Mail de contacto público |
 | `WAHA_URL` / `WAHA_API_KEY` / `WAHA_SESSION` / `WAHA_NOTIFY_CHAT_ID` | Avisos de consultas por WhatsApp |
 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | Avisos de consultas por Telegram |
-| `MAIL_WORKER_URL` / `MAIL_WORKER_TOKEN` / `MAIL_WORKER_TO` | Reenvío de consultas por el Worker de Cloudflare |
+| `RESEND_API_KEY` / `RESEND_FROM` / `MAIL_TO` | Envío directo de consultas por mail con Resend (recomendado) |
+| `MAIL_WORKER_URL` / `MAIL_WORKER_TOKEN` / `MAIL_WORKER_TO` | Alternativa: reenvío por un Worker de Cloudflare |
 | `SOFI_API_URL` / `SOFI_API_KEY` / `SOFI_MODEL` | Proveedor de IA compatible con OpenAI |
 | `SOFI_DAILY_GLOBAL_CAP` / `SOFI_TEMPERATURE` / `SOFI_MAX_TOKENS` | Límites y parámetros de SOFI |
 | `IP_HASH_SALT` / `SOFI_COOKIE_SECRET` | Secretos de hashing y cookies (largos y distintos) |
 
-**Nada se pierde:** si no hay WAHA, Telegram ni Worker configurados, las consultas quedan igual en `data/fullware.sqlite`. Si no hay proveedor de IA, SOFI deriva al contacto y **no** descuenta preguntas.
+**Nada se pierde:** si no hay WAHA, Telegram, Resend ni Worker configurados, las consultas quedan igual en `data/fullware.sqlite`. Si no hay proveedor de IA, SOFI deriva al contacto y **no** descuenta preguntas.
 
 ## API
 
