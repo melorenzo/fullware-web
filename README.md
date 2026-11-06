@@ -41,7 +41,7 @@ Detalles que nos importan: HTML semántico, contraste AA, foco visible, `prefers
 ```
 src/
   components/          componentes Astro
-    islands/           React: CommandPalette, ContactConsole, SofiChat, Solitaire
+    islands/           React: CommandPalette, ContactConsole, SofiChat
   data/                contenido editable: site, services, projects
   pages/               index, proyectos, blog, juego, matias, 404, rss.xml
   styles/global.css    tokens de diseño y estilos base

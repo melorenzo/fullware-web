@@ -340,15 +340,9 @@ textarea {
   margin: 2.5em 0;
 }
 
+/* Excepción pedida: mostrar animaciones aunque el sistema tenga "reducir movimiento". */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
   }
 }

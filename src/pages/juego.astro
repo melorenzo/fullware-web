@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro'
-import Solitaire from '../components/islands/Solitaire.tsx'
+
+const solitaireUrl = 'https://solitario.fullware.com.ar/'
 ---
 
 <Base
   title="Solitario"
-  description="Solitario Klondike jugable, hecho desde cero. Un pequeño demo de lo que se puede construir."
+  description="Solitario Klondike jugable. Un pequeño espacio para cortar un rato."
   noindex
 >
   <section class="border-b border-line">
@@ -15,16 +16,29 @@ import Solitaire from '../components/islands/Solitaire.tsx'
           <p class="section-label">~/juego</p>
           <h1 class="mt-4 text-3xl font-medium sm:text-4xl">Solitario.</h1>
           <p class="mt-3 max-w-lg text-sm leading-relaxed text-muted">
-            Klondike completo: baraja, descarte, fundaciones y siete columnas. Hecho desde cero, sin
-            librerías de juego. Un recordatorio de que si se puede jugar, también se puede automatizar.
+            Un Klondike para cortar un rato. Si algo se puede jugar bien en la web, también se puede
+            construir a medida.
           </p>
         </div>
-        <a href="/" class="btn btn-quiet">← Volver</a>
+        <div class="flex flex-wrap gap-2">
+          <a href={solitaireUrl} target="_blank" rel="noopener noreferrer" class="btn btn-quiet">
+            Abrir aparte
+          </a>
+          <a href="/" class="btn btn-quiet">← Volver</a>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-    <Solitaire client:only="react" />
+    <div class="overflow-hidden rounded-lg border border-line bg-surface">
+      <iframe
+        src={solitaireUrl}
+        title="Solitario Klondike"
+        class="h-[72dvh] min-h-[560px] w-full border-0 bg-bg sm:min-h-[680px]"
+        loading="lazy"
+        allow="fullscreen"
+      ></iframe>
+    </div>
   </section>
 </Base>
